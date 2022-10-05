@@ -1,3 +1,4 @@
+print('Введите кол-во сотрудников')
 peoples = int(input())
 z = 0
 v = []
@@ -6,23 +7,26 @@ index = 0
 while z < peoples:
     z +=1
     v.append(z)
-distances = [int(s) for s in input().split()]
-tariffs = [int(s) for s in input().split()]
-distances1 = sorted(distances, reverse=True)
-tariffs1 = sorted(tariffs)
-spisok = zip(distances1, tariffs1)
-spisok_list = list(spisok)
-elements_len = len(spisok_list)
-spisok1 = dict(zip(distances1, tariffs1))
-spisok2 = dict(zip(v,tariffs1))
-spisok3 = dict(zip(v,distances1))
-spisok4 = dict(zip(v,tariffs))
-spisok5 = dict(zip(v,distances))
+
+
+raw_text = list(map(int, input('Введите все дистанции\n').split()))
+distances = [{
+    "index": s + 1,
+    "value": raw_text[s]
+} for s in range(len(raw_text))]
+
+
+raw_text = list(map(int, input('Введите все тарифы такси за 1 километр\n').split()))
+tariffs = [{
+    "index": s + 1,
+    "value": raw_text[s]
+} for s in range(len(raw_text))]
+distances1 = sorted(distances, key=lambda x: x['value'], reverse=True)
+tariffs1 = sorted(tariffs, key=lambda x: x['value'])
+
 a = len(tariffs1)
 b = len(distances1)
-i = 0
-y = 0
-k = 0
+
 if a != peoples and b != peoples:
     print('Кол-во введёных тарифов и дистанций не соотвествует кол-ву введёных сотрудников')
     exit()
@@ -32,20 +36,20 @@ if a != peoples:
 if b != peoples:
     print('Кол-во введёных дистанций не соотвествует кол-ву введёных сотрудников')
     exit()
-sorted_staff_number_distances = {k: v for k, v in sorted(spisok3.items())}
-for a1 in spisok5.keys():
-    for b1 in spisok3.keys():
-        if (spisok5[a1]) == (spisok3[b1]):
-            for d1 in spisok2.keys():
-                if b1 == d1:
-                    for c1 in spisok4.keys():
-                        if (spisok2[d1]) == (spisok4[c1]):
-                            k += 1
-                            print(c1, '- номер такси для',k,'работника')
-sorted_taxi_number_and_tariff = {k: v for k, v in sorted(spisok2.items(), key=lambda item: item[1])}
-for elements in sorted_taxi_number_and_tariff.items():
-    summ += elements[1] * distances1[index]
-    index += 1
+
+results = [
+    {
+        "s_id": distances1[i]['index'],
+        "t_id": tariffs1[i]['index'],
+        "cost": tariffs1[i]['value'] * distances1[i]['value']
+    } for i in range(peoples)
+]
+kalka = "{t_id} - номер такси для {s_id}"
+
+print("\n".join(list(map(lambda i: kalka.format(**i), results))))
+
+
+summ = sum(map(lambda x: x['cost'], results))
 print(summ)
 n = summ
 if n > 999999 or n < 1:
