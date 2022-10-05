@@ -6,3 +6,4 @@
 Програма разработана в среде программирования PyCharm на языке Python, название файла - main.py
 # Скриншот
 ![image](https://user-images.githubusercontent.com/113355417/193478990-ab3cd32b-1e39-44d7-b788-ccafbb8a5045.png)
+![image](https://user-images.githubusercontent.com/113355417/194033329-5bc2de65-4f50-4f78-968f-60d042d146fb.png)
