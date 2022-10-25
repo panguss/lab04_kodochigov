@@ -1,28 +1,53 @@
 print('Введите кол-во сотрудников')
-peoples = int(input())
-z = 0
-v = []
+
+# Ввод количества сотрудников, цикл закончится тогда, когда пользователь введёт ЦЕЛОЕ число
+while True:
+    try:
+        peoples = int(input())
+
+    except ValueError as e:
+        print("Введите число, а не текст!")
+
+    else:
+        break
+
 summ = 0
 index = 0
-while z < peoples:
-    z +=1
-    v.append(z)
 
+# Ввод переменных
+v = list(range(peoples))
 
-raw_text = list(map(int, input('Введите все дистанции\n').split()))
-distances = [{
-    "index": s + 1,
-    "value": raw_text[s]
-} for s in range(len(raw_text))]
+# Ввод всех дистанций, цикл закончится когда пользователь введёт ряд ЦЕЛЫХ чисел через ПРОБЕЛ
+while True:
+    try:
+        raw_text = list(map(int, input('Введите все дистанции\n').split()))
+        distances = [{
+            "index": s + 1,
+            "value": raw_text[s]
+        } for s in range(len(raw_text))]
+        distances1 = sorted(distances, key=lambda x: x['value'], reverse=True)
 
+    except ValueError as e:
+        print("Введите число, а не текст!")
 
-raw_text = list(map(int, input('Введите все тарифы такси за 1 километр\n').split()))
-tariffs = [{
-    "index": s + 1,
-    "value": raw_text[s]
-} for s in range(len(raw_text))]
-distances1 = sorted(distances, key=lambda x: x['value'], reverse=True)
-tariffs1 = sorted(tariffs, key=lambda x: x['value'])
+    else:
+        break
+
+# Ввод тарифов, цикл закончится когда пользователь введёт ряд ЦЕЛЫХ чисел через ПРОБЕЛ
+while True:
+    try:
+        raw_text = list(map(int, input('Введите все тарифы такси за 1 километр\n').split()))
+        tariffs = [{
+            "index": s + 1,
+            "value": raw_text[s]
+        } for s in range(len(raw_text))]
+        tariffs1 = sorted(tariffs, key=lambda x: x['value'])
+
+    except ValueError as e:
+        print("Введите число, а не текст!")
+
+    else:
+        break
 
 a = len(tariffs1)
 b = len(distances1)
@@ -30,9 +55,11 @@ b = len(distances1)
 if a != peoples and b != peoples:
     print('Кол-во введёных тарифов и дистанций не соотвествует кол-ву введёных сотрудников')
     exit()
+
 if a != peoples:
     print('Кол-во введёных тарифов не соотвествует кол-ву введёных сотрудников')
     exit()
+
 if b != peoples:
     print('Кол-во введёных дистанций не соотвествует кол-ву введёных сотрудников')
     exit()
@@ -46,12 +73,13 @@ results = [
 ]
 kalka = "{t_id} - номер такси для {s_id}"
 
+# Вывод результатов
 print("\n".join(list(map(lambda i: kalka.format(**i), results))))
-
-
 summ = sum(map(lambda x: x['cost'], results))
 print(summ)
 n = summ
+
+# Вывод суммы словами
 if n > 999999 or n < 1:
     print('Число не входит в заданный диапазон')
 if ((n // 100000) % 10) == 1:
